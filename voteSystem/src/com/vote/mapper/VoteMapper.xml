@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.vote.mapper.VoteMapper" >
+ 
+	 <select id="login" parameterType="User" resultType="User">
+	 	select * from user where name=#{name} and pswd=#{pswd}
+	 </select>
+	 
+	<select id="getCampaigner"  resultType="User">
+	 	select * from campaigner
+	 </select>
+
+	 <insert id="insertVote" parameterType="vote">
+	 insert into vote(campaignerId,voteUser,voteCiphertext,votePlaintext)
+	 	VALUES(#{campaignerId},#{voteUser},#{voteCiphertext},#{votePlaintext})
+	 </insert>
+	 
+	 <select id="getVoteCiphertextListByID" parameterType="int" resultType="String">
+	 	select voteCiphertext from vote where campaignerId=#{campaignerId}
+	 </select>
+	 
+	 <select id="getVoteDetileByCID" parameterType="int" resultType="Vote">
+	 	select * from vote where campaignerId=#{campaignerId}
+	 </select>
+	
+	<select  id="getUserVoteNum" parameterType="string" resultType="int">
+		select count(*) from vote where voteUser=#{userName} and votePlaintext=1
+	</select>
+	
+	<select  id="getCampaignerByVoter" parameterType="string" resultType="String">
+		select campaignerId from vote where voteUser=#{userName} and votePlaintext=1
+	</select>
+	
+	<select id="getCampaignerByID" parameterType="int" resultType="User">
+	 select * from campaigner where id=#{id}
+	</select>
+</mapper>
